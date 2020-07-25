@@ -1,5 +1,5 @@
 // https://www.hackerrank.com/challenges/organizing-containers-of-balls
-
+ 
 #include <bits/stdc++.h>
 #include <vector>
 #include <numeric>
