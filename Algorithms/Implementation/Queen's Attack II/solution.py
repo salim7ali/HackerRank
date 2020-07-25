@@ -1,5 +1,13 @@
 # https://www.hackerrank.com/challenges/queens-attack-2
 
+# cases 0 to 7 represent different angles of attack
+# -|-|-|-|-
+# -|0|1|2|-
+# -|7|Q|3|-
+# -|6|5|4|-
+# -|-|-|-|-
+
+
 #!/bin/python3
 
 import math
@@ -10,10 +18,12 @@ import sys
 
 def queensAttack(n, k, r_q, c_q, obstacles):
 
+    #adjusting r_q, c_q and obstacles for grid index starting from [0, 0] 
     rq = r_q - 1
     cq = c_q - 1
     obstacles = [[ob[0]-1, ob[1]-1] for ob in obstacles]
 
+    # Setting default distance from Queen to board edges for all cases
     distList = []
     #case 0
     if cq>=rq:
@@ -45,7 +55,7 @@ def queensAttack(n, k, r_q, c_q, obstacles):
     distList.append(cq)
 
 
-
+    # Measuring distances from queen to closest obstacle for all cases
     #case 0
     for obs in obstacles:
         if rq-obs[0] == cq-obs[1] and rq-obs[0]>0 and distList[0]>rq-obs[0]: 
