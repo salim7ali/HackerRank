@@ -1,9 +1,4 @@
-// https://www.hackerrank.com/challenges/bigger-is-greater/problem
-
 #include <bits/stdc++.h>
-#include <string>
-#include <iostream>
-#include <vector>
 
 using namespace std;
 
@@ -61,5 +56,22 @@ string biggerIsGreater(string w) {
 
 int main()
 {
-    cout<<biggerIsGreater("dkhc");
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    int T;
+    cin >> T;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    for (int T_itr = 0; T_itr < T; T_itr++) {
+        string w;
+        getline(cin, w);
+
+        string result = biggerIsGreater(w);
+
+        fout << result << "\n";
+    }
+
+    fout.close();
+
+    return 0;
 }
