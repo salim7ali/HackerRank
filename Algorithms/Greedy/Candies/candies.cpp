@@ -1,6 +1,7 @@
 // https://www.hackerrank.com/challenges/candies/problem
 
 #include <bits/stdc++.h>
+#include <fstream>
 
 using namespace std;
 
@@ -25,6 +26,8 @@ long candies(int n, vector<int> arr) {
                 minVal= rangeVec[i];
         }
     }
+
+    int SIZE = rangeVec.size();
 
     //adjusting rangeVec based on minVal
     for(int i=0; i<rangeVec.size(); i++){
@@ -105,8 +108,16 @@ long candies(int n, vector<int> arr) {
 }
 
 int main(){
-    vector<int> arr = {2, 4, 2, 6, 1, 7, 8, 9, 2, 1};
-
+    vector<int> arr;
+    // arr = {2, 4, 2, 6, 1, 7, 8, 9, 2, 1};
+    
+    int temp;
+    fstream testCaseFile("C:\\Users\\salim\\Desktop\\Shared folder on home wifi\\programming area\\HackerRank\\Algorithms\\Greedy\\Candies\\testCase1.txt", ios_base::in);
+    while (testCaseFile >> temp)
+    {
+        arr.push_back(temp);
+    }
+    
     cout<<candies(arr.size(), arr);
     
     return 0;
