@@ -4,14 +4,17 @@ import string
 
 def solve(s):
     result = ""
-    words = s.split()
-    for word in words:
-        if(word[0].isalpha()):
-            result += word.capitalize()
+    # words = s.split()
+    for ind, char in enumerate(s):
+        if(ind == 0):
+            result += char.capitalize()
+        elif s[ind-1]==' ' and char.isalpha():
+            result += char.capitalize()
         else:
-            result += word
-        result += ' '
+            result += char
+
     return result
 
-text = "1 w 2 r 3g"
+# text = "1 w 2 r 3g"
+text = "hello world"
 print(solve(text))
