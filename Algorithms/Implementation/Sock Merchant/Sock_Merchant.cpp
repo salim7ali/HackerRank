@@ -1,4 +1,5 @@
 // https://www.hackerrank.com/challenges/sock-merchant/problem
+// Reference for hashmap: https://www.geeksforgeeks.org/check-key-present-cpp-map-unordered_map/
 #include<vector>
 #include<bits/stdc++.h>
 #include<iostream>
@@ -10,19 +11,17 @@ int sockMerchant(int n, vector<int> ar) {
     for(int i=0; i<ar.size(); i++){
         if( colorRepCount.find(ar[i]) == colorRepCount.end() ){//not present
             colorRepCount[ar[i]] = 1;
-            // cout<<"0\n";
         }else{
-            // cout<<"1\n";
             colorRepCount[ar[i]] += 1;
         }
     }
 
-            // cout<<"2\n";
+    int matchingPairCount = 0;
     for(auto &ele: colorRepCount){
-            // cout<<"3\n";
-        cout<<ele.first<<" "<<ele.second <<endl;
+        matchingPairCount += floor((ele.second)/2);
+        // cout<<ele.first<<" "<<ele.second <<endl;
     }
-    return 1;
+    return matchingPairCount;
 }
 
 int main(){
