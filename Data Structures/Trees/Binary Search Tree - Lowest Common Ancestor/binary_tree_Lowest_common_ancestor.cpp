@@ -1,4 +1,5 @@
 // https://www.hackerrank.com/challenges/binary-search-tree-lowest-common-ancestor/problem
+// https://www.youtube.com/watch?v=13m9ZCB8gjw&t=467s
 
 #include <bits/stdc++.h>
 
