@@ -18,8 +18,7 @@ vector<string> split(const string &);
  */
 
 int DFS(int node, map<int, vector<int>> &adjList, 
-                 vector<bool> &visited, vector<int> &sumAtNode, vector<int> data, 
-                 bool findAbsDiff, int &sumOfTree, int &MINdiffBWSubtrees){
+                 vector<bool> &visited, vector<int> &weightOfFirstSubtree, vector<int> data){
     // cout<<"visited "<<node<<" ";
     visited[node] = true;
 
@@ -28,25 +27,15 @@ int DFS(int node, map<int, vector<int>> &adjList,
     for(int i=0; i<adjNodes.size(); i++){
         if(visited[adjNodes[i]] == false){
             visited[adjNodes[i]] = true;
-            sum += DFS(adjNodes[i], adjList, visited, sumAtNode, data, findAbsDiff, sumOfTree, MINdiffBWSubtrees);
+            sum += DFS(adjNodes[i], adjList, visited, weightOfFirstSubtree, data);
         }
     }
-    sumAtNode[node] = sum+data[node-1];
-    if(findAbsDiff){
-        int weightOfFirstSubtree = sumAtNode[node];
-        int weightOfSecondSubtree = sumOfTree - weightOfFirstSubtree;
-
-        int diffBWSubtrees = abs(weightOfFirstSubtree-weightOfSecondSubtree);
-        cout<<"node:"<<node<<" "<<sumOfTree<<"\n";
-        cout<<weightOfFirstSubtree<<" "<<weightOfSecondSubtree<<" "<<diffBWSubtrees<<"\n---\n";
-        if(diffBWSubtrees<MINdiffBWSubtrees)
-            MINdiffBWSubtrees = diffBWSubtrees;
-    }
-    return sumAtNode[node];
+    weightOfFirstSubtree[node] = sum+data[node-1];
+    return weightOfFirstSubtree[node];
 }
 
 int cutTheTree(vector<int> data, vector<vector<int>> edges) {
-    vector<int> sumAtNode(data.size()+1);
+    vector<int> weightOfFirstSubtree(data.size()+1);
     vector<bool> visited(data.size()+1, false);
 
     map<int, vector<int>> adjList;
@@ -59,20 +48,28 @@ int cutTheTree(vector<int> data, vector<vector<int>> edges) {
     }
     // for(auto ele:adjList){
     //     cout<<ele.first<<"-> "<<ele.second<<"\n";
-    // }
+    // }vector<bool> visited(data.size(), false);
 
     int sumOfTree;
     int MINdiffBWSubtrees = INT_MAX;
-    sumOfTree = DFS(1, adjList, visited, sumAtNode, data, false, sumOfTree, MINdiffBWSubtrees);
-    visited.assign(visited.size(), false);
-    cout<<visited[3];
 
-    DFS(1, adjList, visited, sumAtNode, data, true, sumOfTree, MINdiffBWSubtrees);
+    sumOfTree = DFS(1, adjList, visited, weightOfFirstSubtree, data);
+
+    for(int i=1; i<weightOfFirstSubtree.size(); i++){
+        int weightOfSecondSubtree = sumOfTree - weightOfFirstSubtree[i];
+
+        int diffBWSubtrees = abs(weightOfFirstSubtree[i]-weightOfSecondSubtree);
+        // cout<<"node:"<<node<<" "<<sumOfTree<<"\n";
+        // cout<<weightOfFirstSubtree<<" "<<weightOfSecondSubtree<<" "<<diffBWSubtrees<<"\n---\n";
+        if(diffBWSubtrees<MINdiffBWSubtrees)
+            MINdiffBWSubtrees = diffBWSubtrees;
+    }
 
     return MINdiffBWSubtrees; 
 }
 int main()
 {
+    ios_base::sync_with_stdio(false);
     ofstream fout(getenv("OUTPUT_PATH"));
 
     string n_temp;
@@ -157,4 +154,3 @@ vector<string> split(const string &str) {
 
     return tokens;
 }
-
