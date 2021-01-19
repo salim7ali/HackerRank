@@ -70,6 +70,8 @@ int cutTheTree(vector<int> data, vector<vector<int>> edges) {
 int main()
 {
     ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
     ofstream fout(getenv("OUTPUT_PATH"));
 
     string n_temp;
