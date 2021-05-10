@@ -29,14 +29,13 @@ void whatFlavors(vector<int> cost, int money) {
 
         if(second_flavour_cost!=first_flavour_cost){
             if(cost_map.find(second_flavour_cost) != cost_map.end()){// ele exists
-                cout<<i<<" "<<cost_map[second_flavour_cost][0]<<"\n";
+                cout<<i+1<<" "<<cost_map[second_flavour_cost][0]+1<<"\n";
                 return;
             }
         }else{ //second_flavour_cost == first_flavour_cost
             if(cost_map[second_flavour_cost].size()>1){
-                cout<<i<<" "<<cost_map[second_flavour_cost][0]<<"\n";
+                cout<<cost_map[second_flavour_cost][0]+1<<" "<<cost_map[second_flavour_cost][1]+1<<"\n";
                 return;
-
             }
         }
     }
