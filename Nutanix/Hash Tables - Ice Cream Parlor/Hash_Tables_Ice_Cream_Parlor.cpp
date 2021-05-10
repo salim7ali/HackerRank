@@ -1,3 +1,4 @@
+// https://www.hackerrank.com/challenges/ctci-ice-cream-parlor/problem?h_l=interview&playlist_slugs%5B%5D=nutanix
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -15,7 +16,23 @@ vector<string> split(const string &);
  */
 
 void whatFlavors(vector<int> cost, int money) {
+    unorderd_map<int, vector<int>> cost_map;
 
+    for(int i=0; i<cost.size(); i++){
+        int flavour_cost = cost[i]; 
+        cost_map[flavour_cost].push_back(i);
+    }
+
+    for(int i=0; i<cost.size(); i++){
+        int first_flavour_cost = cost[i]; 
+        int second_flavour_cost = money-first_flavour_cost;
+
+        if(second_flavour_cost!=first_flavour_cost){
+            if((cost_map.find(second_flavour_cost) != cost_map.end()) && cost_map[second_flavour_cost].size() > 1){// ele exists
+                cout<<i<<" "<<cost_map[second_flavour_cost][0]<<"\n";
+            }
+        }
+    }
 }
 
 int main()
