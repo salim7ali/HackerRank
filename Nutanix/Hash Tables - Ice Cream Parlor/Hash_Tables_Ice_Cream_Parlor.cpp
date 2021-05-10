@@ -16,7 +16,7 @@ vector<string> split(const string &);
  */
 
 void whatFlavors(vector<int> cost, int money) {
-    unorderd_map<int, vector<int>> cost_map;
+    unordered_map<int, vector<int>> cost_map;
 
     for(int i=0; i<cost.size(); i++){
         int flavour_cost = cost[i]; 
@@ -28,8 +28,15 @@ void whatFlavors(vector<int> cost, int money) {
         int second_flavour_cost = money-first_flavour_cost;
 
         if(second_flavour_cost!=first_flavour_cost){
-            if((cost_map.find(second_flavour_cost) != cost_map.end()) && cost_map[second_flavour_cost].size() > 1){// ele exists
+            if(cost_map.find(second_flavour_cost) != cost_map.end()){// ele exists
                 cout<<i<<" "<<cost_map[second_flavour_cost][0]<<"\n";
+                return;
+            }
+        }else{ //second_flavour_cost == first_flavour_cost
+            if(cost_map[second_flavour_cost].size()>1){
+                cout<<i<<" "<<cost_map[second_flavour_cost][0]<<"\n";
+                return;
+
             }
         }
     }
@@ -37,76 +44,5 @@ void whatFlavors(vector<int> cost, int money) {
 
 int main()
 {
-    string t_temp;
-    getline(cin, t_temp);
-
-    int t = stoi(ltrim(rtrim(t_temp)));
-
-    for (int t_itr = 0; t_itr < t; t_itr++) {
-        string money_temp;
-        getline(cin, money_temp);
-
-        int money = stoi(ltrim(rtrim(money_temp)));
-
-        string n_temp;
-        getline(cin, n_temp);
-
-        int n = stoi(ltrim(rtrim(n_temp)));
-
-        string cost_temp_temp;
-        getline(cin, cost_temp_temp);
-
-        vector<string> cost_temp = split(rtrim(cost_temp_temp));
-
-        vector<int> cost(n);
-
-        for (int i = 0; i < n; i++) {
-            int cost_item = stoi(cost_temp[i]);
-
-            cost[i] = cost_item;
-        }
-
-        whatFlavors(cost, money);
-    }
-
-    return 0;
-}
-
-string ltrim(const string &str) {
-    string s(str);
-
-    s.erase(
-        s.begin(),
-        find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace)))
-    );
-
-    return s;
-}
-
-string rtrim(const string &str) {
-    string s(str);
-
-    s.erase(
-        find_if(s.rbegin(), s.rend(), not1(ptr_fun<int, int>(isspace))).base(),
-        s.end()
-    );
-
-    return s;
-}
-
-vector<string> split(const string &str) {
-    vector<string> tokens;
-
-    string::size_type start = 0;
-    string::size_type end = 0;
-
-    while ((end = str.find(" ", start)) != string::npos) {
-        tokens.push_back(str.substr(start, end - start));
-
-        start = end + 1;
-    }
-
-    tokens.push_back(str.substr(start));
-
-    return tokens;
+    whatFlavors({1, 4, 5, 3, 2}, 4);
 }
