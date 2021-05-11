@@ -18,26 +18,31 @@ vector<string> split(const string &);
  */
 
 long minimumPasses(long m, long w, long p, long n) {
+    int M=m,W=w; 
     int passCount =0;
     int savedCandies = 0;
+    int workersOrMachinesBought;
     while(1){
-        int candies = m*w; 
+        int candies = M*W; 
         if(p>savedCandies+candies){//can't invest. We thus save
             savedCandies += candies;
         }else{  // invest
             savedCandies += candies;
-            int totalInvestment = m+w+savedCandies;
-            m = floor((totalInvestment)/2);
-            w = totalInvestment-m;
+            workersOrMachinesBought=floor(savedCandies/p);
+            int spendCandies=(floor(savedCandies/p))*p;
+            savedCandies -= spendCandies;
 
-            savedCandies = 0;
+            int totalInvestment = M+W+workersOrMachinesBought;
+            M = floor((totalInvestment)/2);
+            W = totalInvestment-M;
+
         }
         passCount += 1;
-        if(savedCandies+m+n >=n)
+        if(workersOrMachinesBought+M+W >=n)
             return passCount;
     }
 }
 
 int main(){
-    minimumPasses(3, 1, 2, 12);    
+    cout<<minimumPasses(3, 1, 2, 12)<<"\n";    
 }
