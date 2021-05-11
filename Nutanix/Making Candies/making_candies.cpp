@@ -18,21 +18,21 @@ vector<string> split(const string &);
  */
 
 long minimumPasses(long m, long w, long p, long n) {
-    int M=m,W=w; 
+    unsigned long long int M=m,W=w; 
     int passCount =0;
-    int savedCandies = 0;
-    int workersOrMachinesBought;
+    unsigned long long int savedCandies = 0;
+    unsigned long long int workersOrMachinesBought=0;
     while(1){
-        int candies = M*W; 
+        unsigned long long int candies = M*W; 
         if(p>savedCandies+candies){//can't invest. We thus save
             savedCandies += candies;
         }else{  // invest
             savedCandies += candies;
             workersOrMachinesBought=floor(savedCandies/p);
-            int spendCandies=(floor(savedCandies/p))*p;
+            unsigned long long int spendCandies=(floor(savedCandies/p))*p;
             savedCandies -= spendCandies;
 
-            int totalInvestment = M+W+workersOrMachinesBought;
+            unsigned long long int totalInvestment = M+W+workersOrMachinesBought;
             M = floor((totalInvestment)/2);
             W = totalInvestment-M;
 
@@ -40,6 +40,7 @@ long minimumPasses(long m, long w, long p, long n) {
         passCount += 1;
         if(workersOrMachinesBought+M+W >=n)
             return passCount;
+        workersOrMachinesBought=0;
     }
 }
 
