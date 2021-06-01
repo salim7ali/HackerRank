@@ -10,7 +10,7 @@ vector<vector<int>> closestRouteToRange(vector<vector<int>> forward_routes, vect
         return_set.insert({return_routes[i][1], return_routes[i][0]});
 
     int closest_total = INT_MIN;
-    vector<vector<int>> curr_closest_result;
+    vector<vector<int>> closest_result;
     for(int i=0; i<forward_routes.size(); i++){
         int curr_forward_id = forward_routes[i][0];
         int curr_forward_dist = forward_routes[i][1];
@@ -26,13 +26,13 @@ vector<vector<int>> closestRouteToRange(vector<vector<int>> forward_routes, vect
 
         if(closest_total < curr_forward_dist + curr_return_dist){ //better result
             closest_total = curr_forward_dist + curr_return_dist;
-            curr_closest_result.clear();
-            curr_closest_result.push_back({curr_forward_id, curr_return_id});
+            closest_result.clear();
+            closest_result.push_back({curr_forward_id, curr_return_id});
         }else if(closest_total == curr_forward_dist + curr_return_dist){ // another route with total dist same as closest total
-            curr_closest_result.push_back({curr_forward_id, curr_return_id});
+            closest_result.push_back({curr_forward_id, curr_return_id});
         }
     }
-    
+    return closest_result;
 }
 
 int main(){
@@ -41,4 +41,7 @@ int main(){
     const int AIRPLANE_RANGE = 10000;
 
     vector<vector<int>> result_routes = closestRouteToRange(forward_routes, return_routes, AIRPLANE_RANGE);
+
+    for(auto ele: result_routes)
+        cout<<"["<<ele[0]<<", "<<ele[1]<<"]\n";
 }
