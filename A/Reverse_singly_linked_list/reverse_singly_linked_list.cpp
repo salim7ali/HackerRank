@@ -12,15 +12,14 @@ struct node{
 // head->
 // 5-> <-3<-20 
 class SinglyLinkedList{
-    node *oldHead = NULL;
-    node *newHead;
+    node *head = NULL;
 public:
-    node* recursiveReverse(node *currPtr, node *prevPtr){
+    node* recursiveHelper(node *currPtr, node *prevPtr, node *oldHead){
 
         if(currPtr->next){
-            recursiveReverse(currPtr->next, currPtr);
+            recursiveHelper(currPtr->next, currPtr, oldHead);
         }else{// end node to be set as start node
-            newHead = currPtr;
+            head = currPtr;
         }
 
         if(currPtr != oldHead)
@@ -29,14 +28,19 @@ public:
             currPtr->next = NULL;
     }
 
-    int iterativeReverse(){
-        node *runningPtr = head;
-
-        while(runningPtr){
-            runningPtr = runningPtr->next;
-        }
-
+    
+    node* recursiveReverse(){
+        node *oldHead = head;
+        recursiveHelper(head, NULL, oldHead);
     }
+    // int iterativeReverse(){
+    //     node *runningPtr = head;
+
+    //     while(runningPtr){
+    //         runningPtr = runningPtr->next;
+    //     }
+
+    // }
 
     void insertNode(int value){
         node *newPtr = new node();  
@@ -45,13 +49,29 @@ public:
         newPtr->value = value;
         newPtr->next = NULL;
 
-        node *runningPtr = oldHead;
+        node *runningPtr = head;
+
+        // when LL is empty
+        if(runningPtr==NULL){
+            head = newPtr;
+            return;
+        }
+        
         while(runningPtr->next)
             runningPtr = runningPtr->next;
         runningPtr->next = newPtr;
     }
 
-    void addItem(){
+    void displayLL(){
+        node *runningPtr = head;
+
+        while(runningPtr){
+            cout<<runningPtr->value<<" ";
+            if(runningPtr->next)
+                runningPtr = runningPtr->next;
+            else
+                break;
+        }cout<<"\n";
 
     }
 };
@@ -64,6 +84,9 @@ int main(){
     obj.insertNode(5);
     obj.insertNode(3);
     obj.insertNode(20);
+    obj.displayLL();
 
-    obj.recursiveReverse(obj.head);
+    obj.recursiveReverse();
+    obj.displayLL();
+
 }
