@@ -6,11 +6,6 @@ struct node{
     node *next;
 };
 
-// head->
-// 5->3->20->NULL
-
-// head->
-// 5-> <-3<-20 
 class SinglyLinkedList{
     node *head = NULL;
 public:
@@ -33,14 +28,32 @@ public:
         node *oldHead = head;
         recursiveHelper(head, NULL, oldHead);
     }
-    // int iterativeReverse(){
-    //     node *runningPtr = head;
 
-    //     while(runningPtr){
-    //         runningPtr = runningPtr->next;
-    //     }
+// head->
+// 5->3->20->NULL
 
-    // }
+// head->  5
+//  N   <-      5    <-       3    <-    20          NULL
+//                                     prev,         curr,next
+    int iterativeReverse(){
+        node *prevPtr = NULL;
+        node *currPtr = head;
+        node *nextPtr = head->next;
+
+        while(currPtr){
+            currPtr->next = prevPtr;
+            prevPtr = currPtr;
+            currPtr = nextPtr;
+
+            if(nextPtr != NULL)
+                nextPtr = nextPtr->next;
+            else{
+                head = prevPtr;
+                break;
+            }
+        }
+
+    }
 
     void insertNode(int value){
         node *newPtr = new node();  
@@ -87,6 +100,9 @@ int main(){
     obj.displayLL();
 
     obj.recursiveReverse();
+    obj.displayLL();
+
+    obj.iterativeReverse();
     obj.displayLL();
 
 }
