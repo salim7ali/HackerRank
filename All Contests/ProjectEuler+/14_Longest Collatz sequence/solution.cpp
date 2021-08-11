@@ -29,10 +29,15 @@ int longestCollatzSequence(int num, map<int, int> &sequenceLen){
 int main() {
     map<int, int> sequenceLen;
     sequenceLen[1] = 0;
-    sequenceLen[2] = 1;
-    // sequenceLen[1] = 1;
-    // sequenceLen[1] = 1;
-    
-    cout<<longestCollatzSequence(13, sequenceLen);    
+
+    // memoize the sequence
+    for(int i=2; i<=5000000; i++){
+        longestCollatzSequence(i, sequenceLen);   
+        cout<<i<<" "<<sequenceLen[i]<<"\n";
+    }
+
+    auto it = sequenceLen.upper_bound(13);
+    it--;
+    cout<<it->first<<it->second<<"\n"; 
     return 0;
 }
