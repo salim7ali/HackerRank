@@ -16,10 +16,41 @@
 using namespace std;
 
 int maxOfAllMin(int numComputer, vector<int> hardDiskSpace, int segmentLength){
-    
+    int maxResult;
+    multiset<int> diskSpaceSet;
+
+    for(int i=0; i<segmentLength; i++){
+        diskSpaceSet.insert(hardDiskSpace[i]);
+    }
+
+    int currMin= INT_MIN;
+    for(int i=0; i+segmentLength<=numComputer; i++){
+        if(i==0){
+            maxResult = *diskSpaceSet.begin();
+            continue;
+        }
+        int prev = hardDiskSpace[i-1];
+        int next = hardDiskSpace[i+segmentLength-1];
+        diskSpaceSet.erase(diskSpaceSet.find(prev));
+        diskSpaceSet.insert(next);
+
+        currMin = *diskSpaceSet.begin();
+        if(currMin>maxResult)
+            maxResult = currMin;
+    }
+    return maxResult;
 }
 
 int main(){
     vector<int> hardDiskSpace = {8, 2, 4};
     cout<<maxOfAllMin(3, hardDiskSpace, 2)<<"\n";
+
+    hardDiskSpace = {8, 2, 4, 6, 1, 8, 3 ,2 , 2};
+    cout<<maxOfAllMin(hardDiskSpace.size(), hardDiskSpace, 2)<<"\n";
+
+    hardDiskSpace = {8, 2, 4, 6, 1, 8, 3 ,2 , 2};
+    cout<<maxOfAllMin(hardDiskSpace.size(), hardDiskSpace, 3)<<"\n";
+
+    hardDiskSpace = {8, 2, 4, 6, 1, 8, 3 ,2 , 2, 6, 6, 5};
+    cout<<maxOfAllMin(hardDiskSpace.size(), hardDiskSpace, 3)<<"\n";
 }
