@@ -17,35 +17,45 @@ using namespace std;
 pair<int, int> selectPackages(int truckSpace, int numPackages, vector<int> packageSpace){
     int availableSpace = truckSpace-30;
 
-    multiset<int> setPackageSpace; 
+    //       <pkgSpace, vector index>
+    multimap<int, int> mapSpaceToIndex; 
     for(int i=0; i<packageSpace.size(); i++){
-        setPackageSpace.insert(packageSpace[i]);
+        mapSpaceToIndex.insert({packageSpace[i], i});
     }
 
-    for(auto it = setPackageSpace.begin(); it != setPackageSpace.end(); it++){
-        int firstEle = *it;
-        int expectedSecondEle = availableSpace - firstEle;
+    for(auto pair: mapSpaceToIndex){
+        int first = pair.first;
+        int secondExpected = availableSpace - first;
 
-        // int firstEleIndex = it-setPackageSpace.begin();
-        // int expectedSecondEleIndex = it-setPackageSpace.begin();
-        
-        auto firstIt = setPackageSpace.lower_bound(expectedSecondEle);
-        auto secondIt = setPackageSpace.upper_bound(expectedSecondEle);
-        secondIt--;
-
-        if(firstEle != expectedSecondEle){
-            return {firstIt-setPackageSpace.begin(), secondIt-setPackageSpace.begin()};
-        }
-        if(firstIt == secondIt)
+        // both nums are distinct
+        if(first != secondExpected){
+            if(mapSpaceToIndex.find(secondExpected) != mapSpaceToIndex.end()){
+                auto secondIt = mapSpaceToIndex.find(secondExpected);
+                return {pair.second, secondIt->second };
+            }
             continue;
-        else{
-            return {firstIt-setPackageSpace.begin(), secondIt-setPackageSpace.begin()};
         }
+
+        // both are same
+        if(mapSpaceToIndex.count(first) >=2){
+            auto it = mapSpaceToIndex.find(first);
+            int firstIndex = it->second;
+            
+            it++;
+            int secondIndex = it->second;
+            return {firstIndex, secondIndex};
+        }
+
     }
+    return {-1, -1};
 }
 
 int main(){
     vector<int> packageSpace = {1, 10, 25, 35, 60};
     pair<int, int> resultPair = selectPackages(90, packageSpace.size(), packageSpace);
+    cout<<resultPair.first<<" "<<resultPair.second<<"\n";
+
+    packageSpace = {10, 205, 35, 35, 40, 45};
+    resultPair = selectPackages(100, packageSpace.size(), packageSpace);
     cout<<resultPair.first<<" "<<resultPair.second<<"\n";
 }
