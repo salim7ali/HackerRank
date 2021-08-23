@@ -23,26 +23,27 @@ pair<int, int> selectPackages(int truckSpace, int numPackages, vector<int> packa
         mapSpaceToIndex.insert({packageSpace[i], i});
     }
 
-    for(auto pair: mapSpaceToIndex){
-        int first = pair.first;
+    for(auto it = mapSpaceToIndex.begin(); it != mapSpaceToIndex.end(); it++){
+        int first = it->first;
         int secondExpected = availableSpace - first;
 
         // both nums are distinct
         if(first != secondExpected){
             if(mapSpaceToIndex.find(secondExpected) != mapSpaceToIndex.end()){
                 auto secondIt = mapSpaceToIndex.find(secondExpected);
-                return {pair.second, secondIt->second };
+                return {it->second, secondIt->second };
             }
             continue;
         }
 
         // both are same
         if(mapSpaceToIndex.count(first) >=2){
-            auto it = mapSpaceToIndex.find(first);
+            // auto it = mapSpaceToIndex.find(first);
             int firstIndex = it->second;
             
-            it++;
-            int secondIndex = it->second;
+            auto secondIt = it;
+            secondIt++;
+            int secondIndex = secondIt->second;
             return {firstIndex, secondIndex};
         }
 
@@ -55,7 +56,7 @@ int main(){
     pair<int, int> resultPair = selectPackages(90, packageSpace.size(), packageSpace);
     cout<<resultPair.first<<" "<<resultPair.second<<"\n";
 
-    packageSpace = {10, 205, 35, 35, 40, 45};
+    packageSpace = {10, 205, 150, 35, 35, 40, 45};
     resultPair = selectPackages(100, packageSpace.size(), packageSpace);
     cout<<resultPair.first<<" "<<resultPair.second<<"\n";
 }
