@@ -15,7 +15,33 @@
 using namespace std;
 
 pair<int, int> selectPackages(int truckSpace, int numPackages, vector<int> packageSpace){
-    
+    int availableSpace = truckSpace-30;
+
+    multiset<int> setPackageSpace; 
+    for(int i=0; i<packageSpace.size(); i++){
+        setPackageSpace.insert(packageSpace[i]);
+    }
+
+    for(auto it = setPackageSpace.begin(); it != setPackageSpace.end(); it++){
+        int firstEle = *it;
+        int expectedSecondEle = availableSpace - firstEle;
+
+        // int firstEleIndex = it-setPackageSpace.begin();
+        // int expectedSecondEleIndex = it-setPackageSpace.begin();
+        
+        auto firstIt = setPackageSpace.lower_bound(expectedSecondEle);
+        auto secondIt = setPackageSpace.upper_bound(expectedSecondEle);
+        secondIt--;
+
+        if(firstEle != expectedSecondEle){
+            return {firstIt-setPackageSpace.begin(), secondIt-setPackageSpace.begin()};
+        }
+        if(firstIt == secondIt)
+            continue;
+        else{
+            return {firstIt-setPackageSpace.begin(), secondIt-setPackageSpace.begin()};
+        }
+    }
 }
 
 int main(){
